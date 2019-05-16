@@ -1,0 +1,22 @@
+3. Порахувати кількість витрачених грошей (атрибут amount колекції customers) для кожного customer 
+
+db.customers.aggregate([
+    {"$unwind":"$Rentals"},
+    {"$unwind":"$Rentals.Payments"},
+    {"$group":{_id:"$_id","Amount":{$sum:"$Rentals.Payments.Amount"}}
+]
+)
+
+
+2. Порахувати кількість фільмів різних жанрів та рейтингів
+
+mb.runSQLQuery(`
+select count(*) from films group by films.'Category',films.Rating
+`)
+
+
+1.Порахувати кількість фільмів різних жанрів (колекція films)
+
+mb.runSQLQuery(`
+select films.'Category',count(*) from films group by films.'Category'
+`)
